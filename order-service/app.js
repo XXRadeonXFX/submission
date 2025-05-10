@@ -25,6 +25,6 @@ app.post('/orders', async (req, res) => {
   res.json(order);
 });
 
-app.listen(port, () => {
-  console.log(`Order service running on port ${port}`);
-});
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Order service running on port ${port}`);
+})
