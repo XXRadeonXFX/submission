@@ -1,23 +1,41 @@
-﻿# Microservices Application Containerization
+﻿# Microservices Containerization Project
 
-This project containerizes a Node.js-based microservices application consisting of three services:
+This project containerizes a Node.js-based microservices application consisting of four services:
 - User Service (Port 3000)
 - Product Service (Port 3001)
+- Order Service (Port 3002)
 - Gateway Service (Port 3003)
 
 ## Prerequisites
 
 - Docker Engine (version 20.10.x or later)
 - Docker Compose (version 2.x or later)
-- Git
 
 ## Setup Instructions
 
-### 1. Clone the Repository
+### 1. Directory Structure
 
-```bash
-git clone <repository-url>
-cd <repository-directory>
+Ensure your project has the following structure:
+```
+submission/
+├── user-service/
+│   ├── Dockerfile
+│   ├── package.json
+│   └── index.js
+├── product-service/
+│   ├── Dockerfile
+│   ├── package.json
+│   └── index.js
+├── order-service/
+│   ├── Dockerfile
+│   ├── package.json
+│   └── index.js
+├── gateway-service/
+│   ├── Dockerfile
+│   ├── package.json
+│   └── index.js
+├── docker-compose.yml
+└── README.md
 ```
 
 ### 2. Build and Start the Services
@@ -27,7 +45,7 @@ docker-compose up --build
 ```
 
 This command will:
-- Build Docker images for all three services
+- Build Docker images for all four services
 - Create and start containers
 - Configure the shared network
 - Map the container ports to host ports
@@ -44,7 +62,7 @@ docker-compose up -d --build
 docker-compose ps
 ```
 
-You should see all three services running without any exit codes.
+You should see all four services running without any exit codes.
 
 ## Testing Each Service
 
@@ -66,15 +84,39 @@ curl http://localhost:3001/products
 
 - Expected response: List of products in JSON format
 
+### Order Service
+
+- Access the order service directly:
+```bash
+curl http://localhost:3002/orders
+```
+
+- Expected response: List of orders in JSON format
+
 ### Gateway Service
 
 - Access the gateway service:
 ```bash
 curl http://localhost:3003/api/users
 curl http://localhost:3003/api/products
+curl http://localhost:3003/api/orders
 ```
 
 - Expected response: The gateway should return data from the respective services
+
+## Service Descriptions
+
+### User Service
+A simple microservice that provides user information through RESTful endpoints.
+
+### Product Service
+A microservice that provides product information through RESTful endpoints.
+
+### Order Service
+A microservice that provides order information through RESTful endpoints.
+
+### Gateway Service
+An API gateway that routes requests to the appropriate microservices and aggregates responses.
 
 ## Troubleshooting
 
@@ -84,6 +126,7 @@ curl http://localhost:3003/api/products
 ```bash
 docker-compose logs user-service
 docker-compose logs product-service
+docker-compose logs order-service
 docker-compose logs gateway-service
 ```
 
@@ -91,6 +134,7 @@ docker-compose logs gateway-service
 ```bash
 netstat -tulpn | grep 3000
 netstat -tulpn | grep 3001
+netstat -tulpn | grep 3002
 netstat -tulpn | grep 3003
 ```
 
@@ -105,18 +149,19 @@ docker network inspect microservices-network
 ```bash
 docker exec -it gateway-service ping user-service
 docker exec -it gateway-service ping product-service
+docker exec -it gateway-service ping order-service
 ```
 
-### Docker Compose Commands Reference
+## Docker Compose Commands Reference
 
 - Stop all services:
 ```bash
 docker-compose down
 ```
 
-- Rebuild a specific service:
+- Restart a specific service:
 ```bash
-docker-compose build user-service
+docker-compose restart <service-name>
 ```
 
 - View logs from all services:
@@ -124,32 +169,9 @@ docker-compose build user-service
 docker-compose logs -f
 ```
 
-## Service Screenshots
-
-### All Services Running in Docker
-![All Services Running](images/all-services-running.png)
-
-### User Service Response
-![User Service Response](images/user-service-response.png)
-
-### Product Service Response
-![Product Service Response](images/product-service-response.png)
-
-### Gateway Service Response
-![Gateway Service Response](images/gateway-service-response.png)
-
-## Directory Structure
-
-```
-submission/
-├── user-service/
-│   └── Dockerfile
-├── product-service/
-│   └── Dockerfile
-├── gateway-service/
-│   └── Dockerfile
-├── docker-compose.yml
-└── README.md
+- View logs from a specific service:
+```bash
+docker-compose logs -f <service-name>
 ```
 
 ## Maintenance

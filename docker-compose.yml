@@ -1,38 +1,30 @@
-version: '3.8'
-
+version: '3'
 services:
-  user-service:
-    build:
-      context: ./user-service
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    networks:
-      - microservices-network
-    restart: unless-stopped
-
-  product-service:
-    build:
-      context: ./product-service
-      dockerfile: Dockerfile
-    ports:
-      - "3001:3001"
-    networks:
-      - microservices-network
-    restart: unless-stopped
-
   gateway-service:
-    build:
-      context: ./gateway-service
-      dockerfile: Dockerfile
+    build: ./gateway-service
     ports:
       - "3003:3003"
-    networks:
-      - microservices-network
     depends_on:
       - user-service
       - product-service
-    restart: unless-stopped
+      - order-service
+    networks:
+      - microservices-network
+
+  user-service:
+    build: ./user-service
+    networks:
+      - microservices-network
+
+  product-service:
+    build: ./product-service
+    networks:
+      - microservices-network
+
+  order-service:
+    build: ./order-service
+    networks:
+      - microservices-network
 
 networks:
   microservices-network:
