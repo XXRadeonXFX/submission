@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  product-service:
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  gateway-service:
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3003"
+    networks:
+      - microservices-network
+    depends_on:
+      - user-service
+      - product-service
+    restart: unless-stopped
+
+networks:
+  microservices-network:
+    driver: bridge
