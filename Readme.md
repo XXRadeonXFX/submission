@@ -21,19 +21,19 @@ submission/
 ├── user-service/
 │   ├── Dockerfile
 │   ├── package.json
-│   └── index.js
+│   └── app.js
 ├── product-service/
 │   ├── Dockerfile
 │   ├── package.json
-│   └── index.js
+│   └── app.js
 ├── order-service/
 │   ├── Dockerfile
 │   ├── package.json
-│   └── index.js
+│   └── app.js
 ├── gateway-service/
 │   ├── Dockerfile
 │   ├── package.json
-│   └── index.js
+│   └── app.js
 ├── docker-compose.yml
 └── README.md
 ```
